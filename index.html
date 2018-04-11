@@ -26,7 +26,7 @@
 <script type="text/javascript" src="spinner3.js"></script>
 
 <script>
-  
+
 window.totalFramesFromVid = 100;
 
 var product1=!1;
@@ -43,7 +43,7 @@ function build(){
         currentFrame: window.totalFramesFromVid/2, // This the start frame for auto spin
         imgList: '.threesixty_images', // selector for image list
         progress: '.spinner', // selector to show the loading progress
-        imagePath: 'https://res.cloudinary.com/demo-robert/videos/', // path of the image assets
+        imagePath: 'https://res.cloudinary.com/<xxxxxx>/videos/', // path of the image assets
         filePrefix: '', // file prefix if any
         ext: '.jpg', // extention for the assets
         height: window.imageWidth/window.aspectRatio,
@@ -55,7 +55,7 @@ function build(){
 };
 
 function widget(){
-  window.cloudinary.openUploadWidget({ cloud_name: 'demo-robert', upload_preset: '3dImage', client_allowed_formats: ['mov','mp4','webm'], sources: ['local','camera']},
+  window.cloudinary.openUploadWidget({ cloud_name: 'xxxxxx', upload_preset: '3dImage', client_allowed_formats: ['mov','mp4','webm'], sources: ['local','camera']},
     function(error, result) {
       if(!result)return;
       //console.log(result)
