@@ -1,0 +1,118 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="description" content="Cloudinary is an end to end media pipeline for image and video management, transformation, and delivery.">
+<meta name="viewport" content="width=device-width">
+<title>360 Product Viewer</title>
+<link href='//fonts.googleapis.com/css?family=Roboto:500,400italic,300,700,500italic,400' rel='stylesheet'>
+<link href='https://plus.google.com/+Cloudinary' rel='publisher'>
+<link href='//www.cloudinary.com/images/favicon-32x32.png' rel='icon' sizes='32x32' type='image/png'>
+<meta content='#2b5797' name='msapplication-TileColor'>
+<meta content='//www.cloudinary.com/images/mstile-144x144.png' name='msapplication-TileImage'>
+<link rel="stylesheet" type="text/css" href="//cloudydesk.com/theme/css/cleanslate.css">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="//cloudydesk.com/theme/css/bootstrap-cloudinary-theme.css">
+<link rel="stylesheet" type="text/css" href="app.css">
+<link rel="stylesheet" type="text/css" href="//res.cloudinary.com/josh/raw/upload/$v_1.1/threesixty.css">
+<link rel="stylesheet" type="text/css" href="//res.cloudinary.com/josh/raw/upload/$v_1.1/threesixty.less">
+<script src="//widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+<script src="//code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="spinner3.js"></script>
+
+<script>
+  
+window.totalFramesFromVid = 100;
+
+var product1=!1;
+
+function build(){
+  if(product1){
+    $("#canvas").find('.product1').remove();
+    $("#canvas").html('<div class="threesixty product1"style="text-align:center"><div class="threesixtyInner"><div class="spinner"><span>0%</span></div><ol class="threesixty_images"></ol></div></div>');
+  };
+  $('.threesixtyInner').css({ 'padding-bottom': `${ 100 / window.aspectRatio }%` });
+  product1 = $('.product1').ThreeSixty({
+        totalFrames: window.totalFramesFromVid, // Total no. of image you have for 360 slider
+        endFrame: window.totalFramesFromVid, // end frame for the auto spin animation
+        currentFrame: window.totalFramesFromVid/2, // This the start frame for auto spin
+        imgList: '.threesixty_images', // selector for image list
+        progress: '.spinner', // selector to show the loading progress
+        imagePath: 'https://res.cloudinary.com/demo-robert/videos/', // path of the image assets
+        filePrefix: '', // file prefix if any
+        ext: '.jpg', // extention for the assets
+        height: window.imageWidth/window.aspectRatio,
+        width: window.imageWidth,
+        navigation: false,
+        disableSpin: true // Default false
+    });
+  console.log("Product1 ", product1);
+};
+
+function widget(){
+  window.cloudinary.openUploadWidget({ cloud_name: 'demo-robert', upload_preset: '3dImage', client_allowed_formats: ['mov','mp4','webm'], sources: ['local','camera']},
+    function(error, result) {
+      if(!result)return;
+      //console.log(result)
+      window.result=result[0];
+      window.vidLength = window.result.duration;
+      window.frameGap = (window.vidLength/window.totalFramesFromVid).toFixed(2);
+      window.viewportWidth = $(window).width();
+      window.imageWidth = '';
+      if (viewportWidth >= 800){window.imageWidth = 800} else if (viewportWidth < 800 && viewportWidth > 500){window.imageWidth = 600} else {window.imageWidth = 320};
+      window.aspectRatio =  window.result.width/window.result.height;
+      build();
+    });
+}
+
+</script>
+</head>
+<body id="cl-container" style="background-color:#142335;" >
+<!--[if lt IE 7]><p>Your browser is <em>ancient!</em> <a href="//browsehappy.com">Upgrade to a different browser</a></p><![endif]-->
+<nav class="navbar navbar-inverse clearfix">
+  <div class="container">
+      <div id="navbar" class="navbar-collapse collapse">
+        <h2 class="flushtop" style="margin-left:40%">360 Product Viewer</h2>
+        <ul class="nav navbar-nav">
+        </ul>
+      </div>
+  </div>
+</nav>
+<section class="clearfix padded">
+  <div class="container" style="width:100%">
+    <aside id="settings" class="col-sm-3">
+      <div class="panel panel-blue">
+        <div id="imageSelections" class="panel-body">
+          <div class="form-group">
+            <a href="javascript:widget()" class="btn btn-lg btn-orange" id="chooseImage">Upload Or Take Your Own Video</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <section id="canvasContainer" style="width:100%">
+      <div class="ibox">
+        <div class="ibox-content" style="background-color:#142335;border:0px;">
+          <figure id="canvas" style="display: block;text-align:center;margin-left: auto;margin-right: auto;margin-top:100px;">
+
+          <div class="threesixty product1" style="text-align:center">
+            <div class="threesixtyInner">
+              <div class="spinner">
+                <span>0%</span>
+              </div>
+              <ol class="threesixty_images"></ol>
+            </div>
+         </div><!-- /threesixtyInner -->
+
+          </figure>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+</body>
+</html>
